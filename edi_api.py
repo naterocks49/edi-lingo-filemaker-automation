@@ -1,4 +1,5 @@
 import requests
+from datetime import time
 
 
 class EdiApi():
@@ -42,3 +43,18 @@ class EdiApi():
         return res.json()
 
     def search_order_filter_by_today(self):
+        url = 'https://www.myweborders.com/rest/documents/order?'
+        payload = {
+            'statusList':'OpenAll',
+            'fulfillAuthStatus': 'Approved',
+            'documentDate': '20240404',
+        }
+        print(self.session_id)
+        header = {
+            'sessionId': self.session_id,
+            'Content-Type': 'application/json',
+        }
+        res = requests.post(url, params=payload, headers=header)
+
+        print(res.url)
+        return res.content
