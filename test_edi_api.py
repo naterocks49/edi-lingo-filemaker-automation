@@ -9,14 +9,14 @@ class TestEdiApi(unittest.TestCase):
 
     def test_edi_api_login(self):
         payload = {
-            "userName": "",
-            "account": "",
-            "userPass": "",
-            "apiKey": "",
+            "userName": "molearygopal",
+            "account": "BIE01",
+            "userPass": "Bifido2021",
+            "apiKey": "2N4IOZOAOSBEG43E6QAC",
         }
         res = requests.post(LOGIN_URL, payload)
 
-        print(res.status_code)
+        self.assertEqual(res.status_code, '200')
 
 
 
