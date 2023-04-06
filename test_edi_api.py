@@ -1,22 +1,21 @@
 import unittest
 import requests
-
-LOGIN_URL = 'https://www.myweborders.com/rest/login'
-BASE_API_URL = 'https://www.myweborders.com/rest/'
+from edi_api import EdiApi
 
 class TestEdiApi(unittest.TestCase):
 
+    i = EdiApi()
 
     def test_edi_api_login(self):
-        payload = {
-            "userName": "molearygopal",
-            "account": "BIE01",
-            "userPass": "Bifido2021",
-            "apiKey": "2N4IOZOAOSBEG43E6QAC",
-        }
-        res = requests.post(LOGIN_URL, payload)
+        self.i.logout_of_api()
+        ses = self.i.login_to_api()
+        self.assertIsNot(ses, '')
 
-        self.assertEqual(res.status_code, '200')
+    def test_edi_logout(self):
+        status = self.i.logout_of_api()
+
+        self.assertEqual(status, 200)
+
 
 
 

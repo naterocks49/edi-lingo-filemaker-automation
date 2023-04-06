@@ -25,6 +25,7 @@ class EdiApi():
             res = requests.post(self.LOGIN_URL, json=self.user_payload)
             self.session_id = res.json()['sessionId']
             print("Logged into EDI API")
+        return self.session_id
 
     def logout_of_api(self):
 
@@ -40,7 +41,7 @@ class EdiApi():
         self.session_id = ''
         print('Logging out')
 
-        return res.json()
+        return res.status_code
 
     def get_order_by_id(self, id):
         url = 'https://www.myweborders.com/rest/documents/order/'

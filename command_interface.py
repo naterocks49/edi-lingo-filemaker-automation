@@ -12,8 +12,7 @@ while 1 == 1:
         print(a.session_id)
 
     elif request == "logout":
-        a.logout_of_api()
-        print(a.session_id)
+        print(a.logout_of_api())
 
     elif request == "today":
         print(a.search_order_filter_by_today())
