@@ -17,3 +17,10 @@ while 1 == 1:
 
     elif request == "today":
         print(a.search_order_filter_by_today())
+
+    elif request == "getbyid":
+        id = input('Enter ID:')
+        print(a.get_order_by_id(id))
+
+    elif request == "partners":
+        print(a.check_partners())

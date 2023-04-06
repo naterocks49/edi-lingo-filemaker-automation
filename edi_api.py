@@ -42,12 +42,22 @@ class EdiApi():
 
         return res.json()
 
+    def get_order_by_id(self, id):
+        url = 'https://www.myweborders.com/rest/documents/order/'
+        url += id
+        header = {
+            'sessionId': self.session_id,
+            'Content-Type': 'application/json',
+        }
+        res = requests.get(url, headers=header)
+        print(res.url)
+        print(res.content)
+
     def search_order_filter_by_today(self):
-        url = 'https://www.myweborders.com/rest/documents/order?'
+        url = 'https://www.myweborders.com/rest/documents/order'
         payload = {
-            'statusList':'OpenAll',
-            'fulfillAuthStatus': 'Approved',
-            'documentDate': '20240404',
+            'statusList':'Inbox',
+            'fulfillAuthStatus': 'NOT_USED',
         }
         print(self.session_id)
         header = {
@@ -55,6 +65,16 @@ class EdiApi():
             'Content-Type': 'application/json',
         }
         res = requests.post(url, params=payload, headers=header)
-
+        print(res.request.headers)
         print(res.url)
         return res.content
+
+    def check_partners(self):
+        headers = {
+        'Content-Type': 'application/json',
+        'sessionId': self.session_id
+        }
+        url = 'https://www.myweborders.com/rest/partner'
+        res = requests.get(url, headers=headers)
+
+        print(res.content)
