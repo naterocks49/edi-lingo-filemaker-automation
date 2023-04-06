@@ -1,6 +1,6 @@
 import requests
 from datetime import time
-
+import json
 
 class EdiApi():
 
@@ -52,22 +52,26 @@ class EdiApi():
         res = requests.get(url, headers=header)
         print(res.url)
         print(res.content)
+        with open('example_get_order.json', 'w') as f:
+            json.dump(res.json(), f, indent=4)
+
 
     def search_order_filter_by_today(self):
-        url = 'https://www.myweborders.com/rest/documents/order'
+        url = 'https://www.myweborders.com/rest/documents/order?'
         payload = {
-            'statusList':'Inbox',
+            'statusList':'Open',
             'fulfillAuthStatus': 'NOT_USED',
+            'documentDate': '20230404'
         }
         print(self.session_id)
         header = {
             'sessionId': self.session_id,
             'Content-Type': 'application/json',
         }
-        res = requests.post(url, params=payload, headers=header)
-        print(res.request.headers)
-        print(res.url)
-        return res.content
+        res = requests.get(url, params=payload, headers=header)
+        with open('example_search_orders.json', 'w') as f:
+            json.dump(res.json(), f, indent=4)
+        return res.json()
 
     def check_partners(self):
         headers = {
@@ -78,3 +82,19 @@ class EdiApi():
         res = requests.get(url, headers=headers)
 
         print(res.content)
+
+    def find_orders(self):
+        headers = {
+        'Content-Type': 'application/json',
+        'sessionId': self.session_id
+        }
+        auth_status = ['NOT_USED','PENDING_APPROVAL','APPROVED','PENDING_FULFILLMENT','FULFILLED']
+        url = 'https://www.myweborders.com/rest/documents/order?'
+        for i in auth_status:
+            payload = {
+                'statusList': "Open",
+                'fulfillAuthStatus': i,
+            }
+            res = requests.get(url, headers=headers, params=payload)
+            print(res.status_code)
+            print(res)
