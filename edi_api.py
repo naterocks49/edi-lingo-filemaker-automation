@@ -43,8 +43,8 @@ class EdiApi():
 
         return res.status_code
 
-    def get_order_by_id(self, id):
-        url = 'https://www.myweborders.com/rest/documents/order/'
+    def get_invoice_by_id(self, id):
+        url = 'https://www.myweborders.com/rest/documents/invoice/'
         url += id
         header = {
             'sessionId': self.session_id,
@@ -53,16 +53,15 @@ class EdiApi():
         res = requests.get(url, headers=header)
         print(res.url)
         print(res.content)
-        with open('example_get_order.json', 'w') as f:
+        with open('example_get_invoice.json', 'w') as f:
             json.dump(res.json(), f, indent=4)
 
 
-    def search_order_filter_by_today(self):
-        url = 'https://www.myweborders.com/rest/documents/order?'
+    def search_invoice_filter_by_today(self):
+        url = 'https://www.myweborders.com/rest/documents/invoice?'
         payload = {
-            'statusList':'Open',
-            'fulfillAuthStatus': 'NOT_USED',
-            'documentDate': '20230404'
+            'statusList':'OnHold',
+            'documentDate': '20230420'
         }
         print(self.session_id)
         header = {
@@ -70,7 +69,7 @@ class EdiApi():
             'Content-Type': 'application/json',
         }
         res = requests.get(url, params=payload, headers=header)
-        with open('example_search_orders.json', 'w') as f:
+        with open('example_search_invoices.json', 'w') as f:
             json.dump(res.json(), f, indent=4)
         return res.json()
 

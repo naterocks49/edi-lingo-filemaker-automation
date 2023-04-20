@@ -129,5 +129,5 @@ dmypy.json
 .pyre/
 
 # JSON files
-example_get_order.json
-example_search_orders.json
+example_get_invoice.json
+example_search_invoices.json
