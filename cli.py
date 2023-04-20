@@ -6,7 +6,6 @@ while 1 == 1:
     request = input("Input function:")
     print(f"Initiating: {request}.")
 
-
     if request == "login":
         a.login_to_api()
         print(a.session_id)
@@ -24,4 +23,8 @@ while 1 == 1:
     elif request == "partners":
         print(a.check_partners())
 
-    elif request == "all_onhold":
+    elif request == "searchonhold":
+        a.grab_all_search_on_hold()
+
+    elif request == "test":
+        a.grab_all_get_on_hold()

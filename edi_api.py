@@ -1,11 +1,13 @@
 import requests
 from datetime import time
 import json
+from dateiterator import DateIterator
+
 
 class EdiApi():
 
     LOGIN_URL = 'https://www.myweborders.com/rest/login'
-    LOGOUT_URL  = 'https://www.myweborders.com/rest/logout'
+    LOGOUT_URL = 'https://www.myweborders.com/rest/logout'
 
     def __init__(self):
         self.user_payload = {
@@ -33,8 +35,8 @@ class EdiApi():
             return "Not logged in."
 
         headers = {
-        'Content-Type': 'application/json',
-        'sessionId': self.session_id
+            'Content-Type': 'application/json',
+            'sessionId': self.session_id
         }
 
         res = requests.post(self.LOGOUT_URL, headers=headers)
@@ -51,16 +53,13 @@ class EdiApi():
             'Content-Type': 'application/json',
         }
         res = requests.get(url, headers=header)
-        print(res.url)
-        print(res.content)
-        with open('example_get_invoice.json', 'w') as f:
-            json.dump(res.json(), f, indent=4)
 
+        return res.json()['result']
 
     def search_invoice_filter_by_today(self):
         url = 'https://www.myweborders.com/rest/documents/invoice?'
         payload = {
-            'statusList':'OnHold',
+            'statusList': 'OnHold',
             'documentDate': '20230420'
         }
         print(self.session_id)
@@ -73,28 +72,46 @@ class EdiApi():
             json.dump(res.json(), f, indent=4)
         return res.json()
 
-    def check_partners(self):
-        headers = {
-        'Content-Type': 'application/json',
-        'sessionId': self.session_id
-        }
-        url = 'https://www.myweborders.com/rest/partner'
-        res = requests.get(url, headers=headers)
+    def grab_all_search_on_hold(self):
+        start_date = '20230301'
+        end_date = '20230420'
+        date_iterator = DateIterator(start_date, end_date)
+        final_dict = {}
 
-        print(res.content)
-
-    def find_orders(self):
-        headers = {
-        'Content-Type': 'application/json',
-        'sessionId': self.session_id
-        }
-        auth_status = ['NOT_USED','PENDING_APPROVAL','APPROVED','PENDING_FULFILLMENT','FULFILLED']
-        url = 'https://www.myweborders.com/rest/documents/order?'
-        for i in auth_status:
+        for date in date_iterator:
+            url = 'https://www.myweborders.com/rest/documents/invoice?'
             payload = {
-                'statusList': "Open",
-                'fulfillAuthStatus': i,
+                'statusList': 'OnHold',
+                'documentDate': date
             }
-            res = requests.get(url, headers=headers, params=payload)
-            print(res.status_code)
-            print(res)
+            print(self.session_id)
+            header = {
+                'sessionId': self.session_id,
+                'Content-Type': 'application/json',
+            }
+            res = requests.get(url, params=payload, headers=header)
+            for invoice in res.json()["result"]:
+                final_dict[invoice["recordIdStr"]] = invoice
+
+        with open('example_search_invoices.json', 'w') as f:
+            json.dump(final_dict, f, indent=4)
+        return res.json()
+
+    def grab_all_get_on_hold(self):
+        with open('example_search_invoices.json', 'r') as f:
+            data = json.load(f)
+        final_dict = {}
+
+        for key in data.keys():
+            url = 'https://www.myweborders.com/rest/documents/invoice/'
+            url += key
+            header = {
+                'sessionId': self.session_id,
+                'Content-Type': 'application/json',
+            }
+            res = requests.get(url, headers=header)
+
+            final_dict[key] = res.json()['result']
+
+        with open('example_get_invoice.json', 'w') as f:
+            json.dump(final_dict, f, indent=4)
