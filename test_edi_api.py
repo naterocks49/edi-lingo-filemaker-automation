@@ -13,7 +13,6 @@ class TestEdiApi(unittest.TestCase):
 
     def test_edi_logout(self):
         status = self.i.logout_of_api()
-
         self.assertEqual(status, 200)
 
 
