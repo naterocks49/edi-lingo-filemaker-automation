@@ -1,6 +1,6 @@
 import unittest
 import requests
-from edi_api import EdiApi
+from import.edi_api import EdiApi
 
 class TestEdiApi(unittest.TestCase):
 

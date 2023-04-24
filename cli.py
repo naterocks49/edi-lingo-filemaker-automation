@@ -1,4 +1,5 @@
-from edi_api import EdiApi
+from edi.edi_api import EdiApi
+
 
 a = EdiApi()
 
