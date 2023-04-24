@@ -1,7 +1,7 @@
 import requests
 from datetime import time
 import json
-from dateiterator import DateIterator
+from .dateiterator import DateIterator
 
 
 class EdiApi():
