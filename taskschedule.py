@@ -4,20 +4,25 @@ Use this file to run automated import/export. Task scheduler will handle file ac
 
 from edi.edi_api import EdiApi
 import json
-from datetime import date
+from datetime import date, datetime
 import sys
+
+with open('logs.txt', 'a') as f:
+    f.write(f'Ran at {datetime.now()}\n')
 
 client = EdiApi()
 
 with open('./edi/today_invoices.json', 'r') as f:
     today_invoices = json.load(f)
 
-date = '20230420'
+date = '20230421'
 '''date = date.today()
 date = str(date).replace('-','')'''
 
 if list(today_invoices.keys())[0] != date:
     today_invoices = {date:[]}
+    with open('today_data.json', 'w') as f:
+        json.dump([], f, indent=4)
 
 print(today_invoices)
 
@@ -31,13 +36,14 @@ else:
         if invoice['documentId'] not in today_invoices[date]:
             filtered_data.append(invoice)
             today_invoices[date].append(invoice['documentId'])
+            print('ADD EXPORT HERE')
 
-with open('total_data.json', 'r') as f:
+with open('today_data.json', 'r') as f:
     total_data = json.load(f)
 
 total_data += filtered_data
 
-with open('total_data.json', 'w') as f:
+with open('today_data.json', 'w') as f:
     json.dump(total_data, f, indent=4)
 
 with open('./edi/today_invoices.json', 'w') as f:
