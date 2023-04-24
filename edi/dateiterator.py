@@ -1,5 +1,8 @@
-import datetime
+"""
+File for creating a iterator formatted to dates to find all historical invoice data.
+"""
 
+import datetime
 
 class DateIterator:
     def __init__(self, start_date, end_date):

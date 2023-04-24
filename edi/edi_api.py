@@ -1,3 +1,7 @@
+"""
+Main EDI data generator.
+"""
+
 import requests
 from datetime import time
 import json
