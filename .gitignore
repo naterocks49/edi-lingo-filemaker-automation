@@ -129,7 +129,7 @@ dmypy.json
 .pyre/
 
 # JSON files
-total_data.json
+.total_data.json
 edi/example_get_invoice.json
 edi/example_search_invoices.json
 edi/today_invoices.json
