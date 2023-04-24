@@ -119,3 +119,8 @@ class EdiApi():
 
         with open('example_get_invoice.json', 'w') as f:
             json.dump(final_dict, f, indent=4)
+
+    def search_onhold_today(self, date):
+
+
+        return
