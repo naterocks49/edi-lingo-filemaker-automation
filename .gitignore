@@ -131,5 +131,5 @@ dmypy.json
 # JSON files
 edi/example_get_invoice.json
 edi/example_search_invoices.json
-ed/today_invoices.json
+edi/today_invoices.json
 total_data.json
