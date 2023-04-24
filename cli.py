@@ -1,31 +1,26 @@
 from edi.edi_api import EdiApi
 
-
 a = EdiApi()
 
-while 1 == 1:
-    request = input("Input function:")
-    print(f"Initiating: {request}.")
+commands = {
+    "login": a.login_to_api,
+    "logout": a.logout_of_api,
+    "today": a.search_invoice_filter_by_today,
+    "searchonhold": a.grab_all_search_on_hold,
+    "test": a.grab_all_get_on_hold
 
-    if request == "login":
-        a.login_to_api()
-        print(a.session_id)
+}
 
-    elif request == "logout":
-        print(a.logout_of_api())
+request = input("Input function:")
+print(f"Initiating: {request}.")
 
-    elif request == "today":
-        print(a.search_invoice_filter_by_today())
-
-    elif request == "getbyid":
+while 1==1:
+    if request == 'logout':
+        commands[request]
+        break
+    if request == 'getbyid':
         id = input('Enter ID:')
-        print(a.get_invoice_by_id(id))
+        a.get_invoice_by_id(id)
+    if request in commands:
+        commands[request]
 
-    elif request == "partners":
-        print(a.check_partners())
-
-    elif request == "searchonhold":
-        a.grab_all_search_on_hold()
-
-    elif request == "test":
-        a.grab_all_get_on_hold()
