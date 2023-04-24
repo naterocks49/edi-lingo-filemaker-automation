@@ -1,3 +1,7 @@
+"""
+File for converting JSON to CSV for key-mapping example.
+"""
+
 import json
 import pandas as pd
 
