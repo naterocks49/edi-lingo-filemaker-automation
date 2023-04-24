@@ -121,6 +121,16 @@ class EdiApi():
             json.dump(final_dict, f, indent=4)
 
     def search_onhold_today(self, date):
+        url = 'https://www.myweborders.com/rest/documents/invoice?'
+        payload = {
+            'statusList': 'OnHold',
+            'documentDate': date,
+        }
+        header = {
+                'sessionId': self.session_id,
+                'Content-Type': 'application/json',
+            }
 
+        res = requests.get(url, headers=header, params=payload)
 
-        return
+        return res.json()
