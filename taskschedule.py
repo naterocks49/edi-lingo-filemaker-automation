@@ -38,7 +38,7 @@ print(today_invoices)
 unfiltered_data = client.search_onhold_today(date)
 filtered_data = []
 
-# CHECK IF INVOICE IN TODAYS INVOICES, ADD IF NOT IN ALREADY
+# CHECK IF INVOICE IN TODAYS INVOICES - ADD SEARCH AND GET DATA TO DICTS
 if not unfiltered_data["result"]:
     print("No data to report, pausing program.")
 else:
