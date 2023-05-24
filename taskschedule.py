@@ -3,6 +3,7 @@ Use this file to run automated import/export. Task scheduler will handle file ac
 """
 
 from edi.edi_api import EdiApi
+from filemaker.filemaker_api import FilemakerApi
 import json
 from datetime import date, datetime
 import sys
