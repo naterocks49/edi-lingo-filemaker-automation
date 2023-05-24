@@ -1,12 +1,13 @@
 """
 Main Filemaker exporter.
 """
-from functions import encode_credentials
+from .functions import encode_credentials
 import requests
 
 class FilemakerApi():
     
     def __init__(self):
+        '''Initialize API variables'''
         self.BASE_URL = ""
         self.LOGIN_URL = self.BASE_URL + "/fmi/data/v2/databases/invoice-data/sessions"
         self.LOGOUT_URL = self.BASE_URL + "/fmi/data/v2/databases/invoice-data/sessions/"
@@ -14,6 +15,7 @@ class FilemakerApi():
         self.AUTH_TOKEN = None
 
     def login(self):
+        '''Login to API - returns string with output message and sets auth token'''
         self.auth_header = {
             "Authorization": encode_credentials("Programmer", "12345"),
             "Content-Type": "application/json"
@@ -28,6 +30,7 @@ class FilemakerApi():
             return f"Login unsuccessful: {res.status_code}"
     
     def logout(self):
+        '''Logout to API - returns string and sets AUTH token to None'''
         if not self.AUTH_TOKEN:
             return "NOT LOGGED IN"
         self.header = {
@@ -39,6 +42,7 @@ class FilemakerApi():
             return "SUCCESSFULLY LOGGED OUT"
     
     def post_new_entry(self, database, data):
+        '''Posts single entry to database - equal mapping from lingo to filemaker'''
         if self.AUTH_TOKEN:
             self.auth_header = {
                 "Authorization": encode_credentials("Programmer", "12345"),

@@ -1,5 +1,5 @@
 """
-File for running command line tests.
+File for running command line tests. Only use for development and debugging.
 """
 
 from edi.edi_api import EdiApi
