@@ -10,7 +10,8 @@ class FilemakerApi():
         self.BASE_URL = ""
         self.LOGIN_URL = self.BASE_URL + "/fmi/data/v2/databases/invoice-data/sessions"
         self.LOGOUT_URL = self.BASE_URL + "/fmi/data/v2/databases/invoice-data/sessions/"
-        self.AUTH_TOKEN = ''
+        self.POST_DATA_URL = self.BASE_URL + '/fmi/data/v2/databases/invoice-data/layouts/'
+        self.AUTH_TOKEN = None
 
     def login(self):
         self.auth_header = {
@@ -38,4 +39,15 @@ class FilemakerApi():
             return "SUCCESSFULLY LOGGED OUT"
     
     def post_new_entry(self, database, data):
-        return
+        if self.AUTH_TOKEN:
+            self.auth_header = {
+                "Authorization": encode_credentials("Programmer", "12345"),
+                "Content-Type": "application/json"
+            }
+            self.params = data
+            res = requests.post(self.POST_DATA_URL + f"{database}/records", headers=self.auth_header, params=self.params)
+            if res.json['response']['recordId']:
+                return "Success"
+            else:
+                return ConnectionRefusedError
+
