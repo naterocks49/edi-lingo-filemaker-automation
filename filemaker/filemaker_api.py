@@ -1,15 +1,15 @@
 """
 Main Filemaker exporter.
 """
-from .functions import encode_credentials
+from functions import encode_credentials
 import requests
 
 class FilemakerApi():
     
     def __init__(self):
         '''Initialize API variables'''
-        self.BASE_URL = ""
-        self.LOGIN_URL = self.BASE_URL + "/fmi/data/v2/databases/invoice-data/sessions"
+        self.BASE_URL = "fmp://Biena-FM.local/API%20LINGO%20FM.fmp12"
+        self.LOGIN_URL = self.BASE_URL + "/fmi/data/v2/databases/API%20LINGO%20FM/sessions"
         self.LOGOUT_URL = self.BASE_URL + "/fmi/data/v2/databases/invoice-data/sessions/"
         self.POST_DATA_URL = self.BASE_URL + '/fmi/data/v2/databases/invoice-data/layouts/'
         self.AUTH_TOKEN = None
@@ -54,4 +54,8 @@ class FilemakerApi():
                 return "Success"
             else:
                 return ConnectionRefusedError
+            
+a = FilemakerApi()
+a.login()
+a.post_new_entry('Invoice', {'id_invoice':'123123'})
 
